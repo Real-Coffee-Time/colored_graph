@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "graph/p_graph.h"
+#include "parser/p_parser.h"
 
 int main(int argc, char** argv) {
     printf("Hello World !\n");
@@ -9,9 +10,16 @@ int main(int argc, char** argv) {
     a_node new_node1 = create_node(1);
     a_node new_node2 = create_node(2);
 
-    // new_node->edge[0] = new_node1;
-    // new_node->edge[1] = new_node2;
+    new_node->edge[0] = new_node1;
+    new_node->edge[1] = new_node2;
 
+    print_node(new_node);
+
+    char* graph_file = "./assets/1-FullIns_3.col";
+
+    print_file(graph_file);
+    
+    parse_file(graph_file);
     connect_nodes(new_node1, new_node2);
     connect_nodes(new_node, new_node1);
 
