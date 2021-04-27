@@ -3,6 +3,7 @@
 *.o
 *.exe
 *.stackdump
+colored_graph
 
 # Ignore .vscode repository
 
