@@ -27,7 +27,8 @@ typedef struct s_coloring {
 typedef struct s_node {
     // char* label;
     int index;
-    struct s_node** edge;
+    int neighbour;
+    struct s_node* edge [30];
 } t_node;
 
 typedef t_node* a_node;
@@ -69,7 +70,7 @@ void print_node(a_node node);
  * 
  * @return int : 1 if the node is an entry, 0 if not
 */
-int is_entry(t_node node);
+int is_entry(a_node node);
 
 /**
  * Check if the node is connected to no other
@@ -88,7 +89,7 @@ int is_endpoint(t_node node);
  * 
  * @return int : 1 if the node is inside, 0 if not
 */
-int node_in_graph(t_node node, t_graph graph);
+int node_in_graph(a_node node, t_graph graph);
 
 
 /* ========================= GRAPHS ========================= */
