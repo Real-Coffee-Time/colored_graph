@@ -44,10 +44,31 @@ int is_init_line(char* line) {
         if (match == 0)
         {
             printf ("Init line identified : %s\n", line);
+            return 1;
         }
     }
 
-    return 1;
+    return 0;    
+}
+
+
+int is_edge_line(char* line) {
+    regex_t preg;
+    const char* regex = "^e{1} [0-9]+ [0-9]+\n";
+    int err = regcomp (&preg, regex, REG_NOSUB | REG_EXTENDED);
+
+    if (err == 0) {
+        int match = regexec (&preg, line, 0, NULL, 0);
+
+        regfree (&preg);
+        if (match == 0)
+        {
+            printf ("Edge identified : %s\n", line);
+            return 1;
+        }
+    }
+
+    return 0;   
 }
 
 
@@ -64,6 +85,9 @@ int parse_file(char* file_name) {
     while (fgets(line, LINE_MAX_SIZE, file) != NULL){
         // Indentification of the init line
         is_init_line(line);
+
+        // Identification of the edges line
+        is_edge_line(line);
     }
 
     fclose(file);

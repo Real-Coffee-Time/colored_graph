@@ -39,6 +39,13 @@ int print_file(char* file_name);
 int is_init_line(char* line);
 
 /**
+ * Check if the tested line is an edge line (with node connections informations)
+ * @param char* line : The line to examin
+ * @return int : 1 if the informations where foundt, 0 if an error occured
+*/
+int is_edge_line(char* line);
+
+/**
  * Function parse the content of a file.
  * @param FILE* file_name: The file to parse
  * @returns Int : 1 if parse was executed without problem, 0 if an error occured while parsing the file
