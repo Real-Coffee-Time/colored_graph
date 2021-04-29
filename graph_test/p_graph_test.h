@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 /**
  * --------------------- PARSER ---------------------
@@ -101,6 +102,22 @@ int is_empty_edges(a_node node);
 int print_edges(a_node node);
 
 /**
+ * Check if a node is connected to an other
+ * @param a_node node1: The node to check
+ * @param a_node node2: The node to explore
+ * @return int : 1 if connected, 0 if not, -1 if an error occured
+*/
+int is_connected_to(a_node node1, a_node node2);
+
+/**
+ * Check if two nodes are connected together
+ * @param a_node node1: The first node to explore
+ * @param a_node node2: The second node to explore
+ * @return int : 1 if connected, 0 if not, -1 if an error occured
+*/
+int are_connected_together(a_node node1, a_node node2);
+
+/**
  * Check if no node is connected to the current node
  * 
  * @param t_node node : The node to check
@@ -169,6 +186,17 @@ int print_graph(a_graph graph);
 
 
 /**
+ * Returns a random graph
+ * 
+ * @param int nb_nodes: The number of nodes in the graph
+ * @param int max_edges: The maximum number of edges per node
+ * 
+ * @return a_graph: the new graph
+*/
+a_graph create_random_graph(int nb_nodes, int max_edges);
+
+
+/**
  * Check if a node is inside a graph
  * 
  * @param t_node node : The node to be checked
@@ -176,6 +204,6 @@ int print_graph(a_graph graph);
  * 
  * @return int : 1 if the node is inside, 0 if not
 */
-int node_in_graph(a_node node, a_graph graph);
+int is_node_in_graph(a_node node, a_graph graph);
 
 #endif

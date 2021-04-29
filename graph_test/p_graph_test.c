@@ -101,11 +101,36 @@ int connect_nodes_between(a_node node1, a_node node2) {
     connect_node_to(node1, node2);
     connect_node_to(node2, node1);
 
-    // if (connect_node_to(node1, node2) && connect_node_to(node2, node1)) {
-    //     return 1;
-    // }
-
     return 1;
+}
+
+
+int is_connected_to(a_node node1, a_node node2) {
+    if (is_empty_node(node1) | is_empty_node(node2)) {
+        printf("Cannot perform action with empty nodes.\n");
+        return -1;
+    }
+
+    for (int i=0; i<node2->nb_of_connections; i++) {
+        if (node1 == node2->edges[i]) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int are_connected_together(a_node node1, a_node node2) {
+    if (is_empty_node(node1) | is_empty_node(node2)) {
+        printf("Cannot perform action with empty nodes.\n");
+        return -1;
+    }
+
+    if (is_connected_to(node1, node2) && is_connected_to(node2, node1)) {
+        return 1;
+    }
+
+    return 0;
 }
 
 /* ========================= GRAPHS ========================= */
@@ -162,4 +187,57 @@ int print_graph(a_graph graph) {
     }
 
     return 1;
+}
+
+a_graph create_random_graph(int nb_nodes, int max_edges) {
+    a_graph random_graph = create_graph();
+
+    // Create all the nodes inside the graph
+    for (int i=0; i<nb_nodes; i++) {
+        add_node(random_graph, create_node(i));
+    }
+
+    // Init the random generator
+    srand(time(NULL));
+
+    // For each node, chose a random number of connexions
+    for (int i=0; i<nb_nodes; i++) {
+        a_node current_node = random_graph->nodes[i];
+        int nb_of_connexions = rand() % max_edges;
+
+        // Create nb_of_connexions random connections
+        for (int i=0; i<nb_of_connexions; i++) {
+            // While the random_node is either the current_node, or already connected, or already have a max number of connections
+            int random_index;
+            a_node random_node_to_connect;
+
+            do {
+                random_index = rand() % nb_nodes;
+                random_node_to_connect = random_graph->nodes[random_index];
+            } while (current_node == random_node_to_connect | are_connected_together(current_node, random_node_to_connect) | number_of_edges(random_node_to_connect) >= max_edges );
+
+            // The node can be added
+            connect_nodes_between(current_node, random_node_to_connect);
+        }
+
+    }
+
+    return random_graph;
+}
+
+int is_node_in_graph(a_node node, a_graph graph) {
+    if (is_empty_node(node) | is_empty_graph(graph)) {
+        printf("Cannot perform action with NULL values.\n");
+        return -1;
+    }
+
+    printf("%i\n", size_graph(graph));
+
+    for (int i=0; i<size_graph(graph) - 1; i++) {
+        if (node->index == graph->nodes[i]->index) {
+            return 1;
+        }
+    }
+
+    return 0;
 }

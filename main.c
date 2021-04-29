@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
 
     /* ========================= NODES ========================= */
 
-    a_node test_node = create_node(0);
+    a_node test_node = create_node(51);
 
     for (int i=1; i<10; i++) {
         connect_nodes_between(test_node, create_node(i));
@@ -19,27 +19,11 @@ int main(int argc, char** argv) {
 
     /* ========================= GRAPHS ========================= */
 
-    a_graph graph = create_graph();
+    a_graph graph = create_random_graph(50, 5);
 
-    a_node node = create_node(0);
-    a_node node1 = create_node(1);
-    a_node node2 = create_node(2);
-    a_node node3 = create_node(3);
-    a_node node4 = create_node(4);
+    // print_graph(graph);
 
-    connect_nodes_between(node, node1);
-    connect_nodes_between(node, node3);
-    connect_nodes_between(node, node4);
-    connect_nodes_between(node3, node4);
-    connect_nodes_between(node1, node2);
-
-    add_node(graph, node);
-    add_node(graph, node1);
-    add_node(graph, node2);
-    add_node(graph, node3);
-    add_node(graph, node4);
-    
-    print_graph(graph);
+    printf("Test de présence pour le node %i : %i\n", test_node->index, is_node_in_graph(test_node, graph));
 
     return 0;
 }
