@@ -22,7 +22,6 @@ void print_node(a_node node) {
         while (node->edge[index] != NULL) {
             printf("\t%i \n", (node->edge[index])->index);
             index++;
-
         }
     }
 } // end of print_node(...)

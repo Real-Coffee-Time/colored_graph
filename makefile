@@ -2,7 +2,7 @@ CC = gcc 															# Compiler
 CFLAGS = -Wall -O 													# Compiler options
 LDFLAGS = 															# Compiler links edition
 
-MODULES = . parser graph											# All the modules to compile
+MODULES = . parser graph_test											# All the modules to compile
 
 EXEC = colored_graph 												# Executables name
 SRC = $(foreach sdir,$(MODULES), $(wildcard $(sdir)/*.c))			# Fetch all the *.c files
@@ -16,6 +16,13 @@ $(EXEC): $(OBJ)														# Executable dependances
 
 %.o: %.c															# Objects dependances
 	$(CC) -o $@ -c $^ $(CFLAGS)
+
+
+
+run:
+	make clean
+	make all
+	./$(EXEC)
 
 # Clean project
 
