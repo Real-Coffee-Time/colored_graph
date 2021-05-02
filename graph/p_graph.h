@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 /**
  * --------------------- PARSER ---------------------
@@ -25,14 +26,12 @@ typedef struct s_coloring {
  * @param s_node** edge : All connected nodes
 */
 typedef struct s_node {
-    // char* label;
     int index;
-    int neighbour;
-    struct s_node* edge [30];
+    int nb_of_connections;
+    struct s_node** edges;
 } t_node;
 
 typedef t_node* a_node;
-typedef a_node* t_graph;
 
 
 /* ========================= NODES ========================= */
@@ -47,21 +46,76 @@ typedef a_node* t_graph;
 a_node create_node(int index);
 
 /**
- * Connects to node between each other
+ * Count the number of connections of a node.
+ * @param a_node node : The node to check
+ * @return the number of connection
+*/
+int number_of_edges(a_node node);
+
+/**
+ * Connects a node to another
  * 
- * @param a_node node1 : The first node to connect
- * @param a_node node2 : The second node to connect
+ * @param a_node node1 : The node to connect
+ * @param a_node node2 : The node to connect to
  * 
  * @return int : 1 if the two nodes are connected, 0 if an error occured
 */
-int connect_nodes(a_node node1, a_node node2);
+int connect_node_to(a_node node1, a_node node2);
+
+
+/**
+ * Connects to nodes between each other
+ * @param a_node node1 : the first node to connect
+ * @param a_node node2 : the second node to connect
+ * 
+ * @return int : 1 if the two nodes are connected, 0 if an error occured
+*/
+int connect_nodes_between(a_node node1, a_node node2);
 
 /**
  * Print the content of a node
  * 
  * @param t_node node : The node to print
+ * @return int : 1 if ok, 0 if an error occured.
 */
-void print_node(a_node node);
+int print_node(a_node node);
+
+/**
+ * Check if a node is empty.
+ * @param a_node: The node to check.
+ * @return int: 1 if empty, 0 if not.
+*/
+int is_empty_node(a_node node);
+
+/**
+ * Check if a node edges are null.
+ * @param a_node: The node to check.
+ * @return int: 1 if empty, 0 if not.
+*/
+int is_empty_edges(a_node node);
+
+/**
+ * Print a node's edges.
+ * @param a_node node : The node to print the edges.
+ * @return int: 1 if printed, 0 if an error occured
+*/
+int print_edges(a_node node);
+
+/**
+ * Check if a node is connected to an other
+ * @param a_node node1: The node to check
+ * @param a_node node2: The node to explore
+ * @return int : 1 if connected, 0 if not, -1 if an error occured
+*/
+int is_connected_to(a_node node1, a_node node2);
+
+/**
+ * Check if two nodes are connected together
+ * @param a_node node1: The first node to explore
+ * @param a_node node2: The second node to explore
+ * @return int : 1 if connected, 0 if not, -1 if an error occured
+*/
+int are_connected_together(a_node node1, a_node node2);
 
 /**
  * Check if no node is connected to the current node
@@ -81,27 +135,37 @@ int is_entry(a_node node);
 */
 int is_endpoint(t_node node);
 
-/**
- * Check if a node is inside a graph
- * 
- * @param t_node node : The node to be checked
- * @param t_graph graph : The graph to check
- * 
- * @return int : 1 if the node is inside, 0 if not
-*/
-int node_in_graph(a_node node, t_graph graph);
-
 
 /* ========================= GRAPHS ========================= */
+
+typedef struct s_graph {
+    a_node* nodes;
+    int size_graph;
+} t_graph;
+
+typedef t_graph* a_graph;
 
 /**
  * Initialize an empty graph
  * 
- * @param int size_graph : The size of the graph
- * 
  * @return t_graph : The new empty graph
 */
-t_graph create_graph(int size_graph);
+a_graph create_graph();
+
+/**
+ * Check if a graph is empty.
+ * @param a_graph: The graph to check.
+ * @return int: 1 if empty, 0 if not.
+*/
+int is_empty_graph(a_graph graph);
+
+/**
+ * Returns the size of a graph
+ * 
+ * @param a_graph: the graph to check.
+ * @return int : -1 if an error occured, positive int
+*/
+int size_graph(a_graph graph);
 
 /**
  * Add a node to the graph. All the connected nodes will also be added to the graph.
@@ -111,13 +175,35 @@ t_graph create_graph(int size_graph);
  * 
  * @return int : 1 if the node was added, 0 if a problem occured
 */
-int add_node(t_graph graph, a_node node);
+int add_node(a_graph graph, a_node node);
 
 /**
  * Print a graph
  * 
  * @param t_graph graph : The graph to print
 */
-void print_graph(t_graph graph);
+int print_graph(a_graph graph);
+
+
+/**
+ * Returns a random graph
+ * 
+ * @param int nb_nodes: The number of nodes in the graph
+ * @param int max_edges: The maximum number of edges per node
+ * 
+ * @return a_graph: the new graph
+*/
+a_graph create_random_graph(int nb_nodes, int max_edges);
+
+
+/**
+ * Check if a node is inside a graph
+ * 
+ * @param t_node node : The node to be checked
+ * @param t_graph graph : The graph to check
+ * 
+ * @return int : 1 if the node is inside, 0 if not
+*/
+int is_node_in_graph(a_node node, a_graph graph);
 
 #endif
