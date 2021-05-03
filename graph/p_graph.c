@@ -6,6 +6,7 @@ a_node create_node(int index) {
     a_node new_node = (a_node) malloc(sizeof(t_node));
     new_node->index = index;
     new_node->nb_of_connections = 0;
+    new_node->node_color = COLOR_NULL;
 
     return new_node;
 }
@@ -47,7 +48,7 @@ int print_node(a_node node) {
         return 0;
     }
 
-    printf("Node : %i\n", node->index);
+    printf("Node : %i (color: %i)\n", node->index, node->node_color);
     print_edges(node);
 
     return 1;

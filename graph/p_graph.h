@@ -15,10 +15,8 @@
  * Module that creates, updates and evaluates graphs
 */
 
-
-typedef struct s_coloring {
-    int* color;
-} t_coloring;
+#define COLOR_NULL -1
+typedef int color;
 
 
 /**
@@ -28,10 +26,26 @@ typedef struct s_coloring {
 typedef struct s_node {
     int index;
     int nb_of_connections;
+    color node_color;
     struct s_node** edges;
 } t_node;
 
 typedef t_node* a_node;
+
+typedef struct s_coloring {
+    color* colors;
+    int nb_colors;
+} t_coloring;
+
+typedef t_coloring* a_coloring;
+
+typedef struct s_graph {
+    a_node* nodes;
+    int size_graph;
+    a_coloring colors;
+} t_graph;
+
+typedef t_graph* a_graph;
 
 
 /* ========================= NODES ========================= */
@@ -137,13 +151,6 @@ int is_endpoint(t_node node);
 
 
 /* ========================= GRAPHS ========================= */
-
-typedef struct s_graph {
-    a_node* nodes;
-    int size_graph;
-} t_graph;
-
-typedef t_graph* a_graph;
 
 /**
  * Initialize an empty graph
