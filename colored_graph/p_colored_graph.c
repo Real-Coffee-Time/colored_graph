@@ -91,7 +91,7 @@ int print_colors_list(a_coloring colors) {
 }
 
 int assign_color_to_node(color color, a_node node) {
-    if (is_empty_node(node) | color == COLOR_NULL) {
+    if (is_empty_node(node) | (color == COLOR_NULL)) {
         printf("Cannot perform action with empty values.\n");
         return -1;
     }
@@ -147,5 +147,7 @@ int color_graph(a_graph graph) {
             assign_color_to_node(new_color, current_node);
         }
     }
+
+    return 1;
 
 }

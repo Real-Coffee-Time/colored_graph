@@ -2,7 +2,7 @@ CC = gcc 															# Compiler
 CFLAGS = -Wall -O 													# Compiler options
 LDFLAGS = 															# Compiler links edition
 
-MODULES = . parser graph colored_graph								# All the modules to compile
+MODULES = . parser graph colored_graph graph_uml					# All the modules to compile
 
 EXEC = executable 												# Executables name
 SRC = $(foreach sdir,$(MODULES), $(wildcard $(sdir)/*.c))			# Fetch all the *.c files
@@ -28,4 +28,5 @@ run:
 clean:
 	rm -f $(OBJ)
 	rm -f *.exe
+	rm -f *.puml
 	rm -f *.stackdump

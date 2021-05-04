@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 /**
  * --------------------- PARSER ---------------------
@@ -149,6 +150,9 @@ int is_entry(a_node node);
 */
 int is_endpoint(t_node node);
 
+/***/
+int delete_connection(a_node node1, a_node node2);
+
 
 /* ========================= GRAPHS ========================= */
 
@@ -216,7 +220,9 @@ int is_node_in_graph(a_node node, a_graph graph);
 /***/
 int get_number_of_edges(a_graph graph);
 
-/***/
-t_node** get_all_edges(a_graph graph);
+/**
+ * Return a new graph where all nodes are only connected once between each other
+*/
+a_graph one_connexion_graph(a_graph graph);
 
 #endif

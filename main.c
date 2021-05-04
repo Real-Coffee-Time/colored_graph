@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "graph/p_graph.h"
 #include "parser/p_parser.h"
 #include "colored_graph/p_colored_graph.h"
+#include "graph_uml/p_graph_uml.h"
 
 int main(int argc, char** argv) {
 
@@ -29,26 +31,31 @@ int main(int argc, char** argv) {
     connect_nodes_between(node5, node7);
     connect_nodes_between(node6, node7);
 
-
     /* ========================= GRAPHS ========================= */
 
-    a_graph graph = create_graph();
+    a_graph graph = create_random_graph(25, 5);
 
-    add_node(graph, node1);
-    add_node(graph, node2);
-    add_node(graph, node3);
-    add_node(graph, node4);
-    add_node(graph, node5);
-    add_node(graph, node6);
-    add_node(graph, node7);
+    // add_node(graph, node1);
+    // add_node(graph, node2);
+    // add_node(graph, node3);
+    // add_node(graph, node4);
+    // add_node(graph, node5);
+    // add_node(graph, node6);
+    // add_node(graph, node7);
 
-    // print_graph(graph);
-
-    /* ========================= COLORS ========================= */
+    print_graph(graph);
 
     color_graph(graph);
 
+    /* ========================= COLORS ========================= */
+
+    printf("\n\n\n");
+
     print_graph(graph);
+
+    /* ========================== UML ========================== */
+
+    export_graph_to_uml(graph);
 
 
     return 0;

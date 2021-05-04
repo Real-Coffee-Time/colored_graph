@@ -93,6 +93,37 @@ int connect_node_to(a_node node1, a_node node2) {
     return 1;
 }
 
+int delete_connection(a_node node1, a_node node2) {
+    if (is_empty_node(node1) | is_empty_node(node2)) {
+        printf("Cannot disconnect empty nodes.");
+        return 0;
+    }
+
+    int index_node1;
+
+    a_node last_edge = node2->edges[number_of_edges(node2) - 1];
+
+    // On remplace la connexion avec node 2 par null
+    for (int i=0; i<number_of_edges(node2); i++) {
+        if (node2->edges[i] == node1) {
+            index_node1 = i;
+            
+            // On prend la dernière connexion des edges et on la place au niveau de l'ancienne place de node 2
+            node2->edges[i] = last_edge;
+
+            // On designe la dernière connexion comme null
+            node2->edges[number_of_edges(node2) - 1] = NULL;
+            
+            // On retire un à la taille du graph
+            node2->nb_of_connections--;
+
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 int connect_nodes_between(a_node node1, a_node node2) {
     if (is_empty_node(node1) | is_empty_node(node2)) {
         printf("Cannot connect empty nodes.");
@@ -239,4 +270,28 @@ int is_node_in_graph(a_node node, a_graph graph) {
     }
 
     return 0;
+}
+
+a_graph one_connexion_graph(a_graph graph) {
+    if (is_empty_graph(graph)) {
+        printf("Cannot perform action with NULL graph.\n");
+        return -1;
+    }
+
+    a_graph oc_graph = graph;
+
+    for (int n=0; n<size_graph(oc_graph); n++) {
+        a_node current_node = oc_graph->nodes[n];
+        for (int e=0; e<number_of_edges(current_node); e++) {
+            a_node current_edge = current_node->edges[e];
+
+            // Si la connexion est double:
+            if (are_connected_together(current_node, current_edge)) {
+                // Supprimer la connexion dans le noeud connecté
+                delete_connection(current_node, current_edge);
+            }
+        }
+    }
+
+    return oc_graph;
 }
