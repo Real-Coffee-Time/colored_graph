@@ -213,4 +213,10 @@ a_graph create_random_graph(int nb_nodes, int max_edges);
 */
 int is_node_in_graph(a_node node, a_graph graph);
 
+/***/
+int get_number_of_edges(a_graph graph);
+
+/***/
+t_node** get_all_edges(a_graph graph);
+
 #endif
