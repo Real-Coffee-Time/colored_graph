@@ -83,6 +83,8 @@ int parse_file(char* file_name) {
 
     // Read line by line (to change to char by char)
     while (fgets(line, LINE_MAX_SIZE, file) != NULL){
+        decode_line(line);
+
         // Indentification of the init line
         is_init_line(line);
 
@@ -92,4 +94,18 @@ int parse_file(char* file_name) {
 
     fclose(file);
     return 1;
+}
+
+int* decode_line(char* line) {
+    int size_line = sizeof(line);
+    printf("%i\n", size_line);
+    int values[2];
+
+    for(int i=0; i<size_line - 1; i++) {
+        if (isdigit(line[i])) {
+            printf("%i", line[i]);
+        }
+    }
+
+    return NULL;
 }

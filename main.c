@@ -57,6 +57,10 @@ int main(int argc, char** argv) {
 
     export_graph_to_uml(graph);
 
+    /* ========================= PARSER ========================= */
+
+    parse_file("assets/1-FullIns_3.col");
+
 
     return 0;
 }
