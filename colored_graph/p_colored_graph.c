@@ -343,7 +343,7 @@ int color_graph_local_search(a_graph graph) {
         }
     }
 
-    print_colors_list(used_colors);
+    // print_colors_list(used_colors);
 
     color max_color = -1;
     for (int i=0; i<used_colors->nb_colors; i++) {
@@ -356,6 +356,8 @@ int color_graph_local_search(a_graph graph) {
 
     // For each used color
     for (int i=0; i<used_colors->nb_colors; i++) {
+
+        color current_color = used_colors->colors[i];
         // Try to lower it
         a_coloring neigbourg_color = init_colors();
 
@@ -376,16 +378,15 @@ int color_graph_local_search(a_graph graph) {
 
         // From the smallest color
         for (int n=0; n<max_color; n++) {
-            
-        //     if (node_color(graph->nodes[n]) == used_colors->colors[i]) { // Pour tous les noeuds qui ont cette couleur
-        //         if (!is_color_in_list(n, neigbourg_color)) {
-        //             printf("La couleur %i peut remplacer la couleur %i\n", n, used_colors->colors[i]);
-        //             graph->nodes[n]->node_color = n;
-        //         } else {
-        //             break;
-        //         }
-        //     }
+            if (node_color(graph->nodes[n]) == current_color) {
+                if (!is_color_in_list(n, neigbourg_color)) {
+                    // printf("La couleur %i peut remplacer la couleur %i\n", n, used_colors->colors[i]);
+                    graph->nodes[n]->node_color = n;
+                }
+            }
         }
+
     }
+    return 1;
 
 }
