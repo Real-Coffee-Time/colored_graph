@@ -152,7 +152,14 @@ int is_entry(a_node node);
 */
 int is_endpoint(t_node node);
 
-/***/
+/**
+ * Delete a connection between two nodes
+ * 
+ * @param a_node node1 : the first node
+ * @param a_node node2 : the second node
+ * 
+ * @return int : 1 if the connection is deleted, 0 if not
+*/
 int delete_connection(a_node node1, a_node node2);
 
 
@@ -219,11 +226,15 @@ a_graph create_random_graph(int nb_nodes, int max_edges);
 */
 int is_node_in_graph(a_node node, a_graph graph);
 
-/***/
+/**
+ * Get a node by his index
+ * 
+ * @param int node : the node's index
+ * @param a_graph graph : the graph to check
+ * 
+ * @return int : 1 if the node is found, 0 if not
+*/
 a_node find_node_by_index(int node, a_graph graph);
-
-/***/
-int get_number_of_edges(a_graph graph);
 
 /**
  * Return a new graph where all nodes are only connected once between each other
