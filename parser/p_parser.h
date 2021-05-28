@@ -6,6 +6,8 @@
 #include <regex.h>
 #include <ctype.h>
 
+#include "../graph/p_graph.h"
+
 #define LINE_MAX_SIZE 250
 #define NULL_FILE NULL
 
@@ -51,7 +53,7 @@ int is_edge_line(char* line);
  * @param FILE* file_name: The file to parse
  * @returns Int : 1 if parse was executed without problem, 0 if an error occured while parsing the file
 */
-int parse_file(char* file_name);
+a_graph graph_from_file(char* file_name);
 
 /***/
 int* decode_line(char* line);

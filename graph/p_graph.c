@@ -99,14 +99,14 @@ int delete_connection(a_node node1, a_node node2) {
         return 0;
     }
 
-    int index_node1;
+    // int index_node1;
 
     a_node last_edge = node2->edges[number_of_edges(node2) - 1];
 
     // On remplace la connexion avec node 2 par null
     for (int i=0; i<number_of_edges(node2); i++) {
         if (node2->edges[i] == node1) {
-            index_node1 = i;
+            // index_node1 = i;
             
             // On prend la dernière connexion des edges et on la place au niveau de l'ancienne place de node 2
             node2->edges[i] = last_edge;
@@ -272,10 +272,28 @@ int is_node_in_graph(a_node node, a_graph graph) {
     return 0;
 }
 
+a_node find_node_by_index(int node, a_graph graph) {
+    if (is_empty_graph(graph)) {
+        printf("Cannot perform action with NULL values.\n");
+        return NULL;
+    }
+
+    // printf("Loooking for node %i\n", node);
+
+    for (int i=0; i<size_graph(graph); i++) {
+        if (node == graph->nodes[i]->index) {
+            return graph->nodes[i];
+        }
+    }
+
+    printf("Node %i not foundt\n", node);
+    return NULL;
+}
+
 a_graph one_connexion_graph(a_graph graph) {
     if (is_empty_graph(graph)) {
         printf("Cannot perform action with NULL graph.\n");
-        return -1;
+        return NULL;
     }
 
     a_graph oc_graph = graph;

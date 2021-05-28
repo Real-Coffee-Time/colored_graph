@@ -6,6 +6,8 @@
 #include <time.h>
 #include <string.h>
 
+// #include "../colored_graph/p_colored_graph.h"
+
 /**
  * --------------------- PARSER ---------------------
  * 
@@ -216,6 +218,9 @@ a_graph create_random_graph(int nb_nodes, int max_edges);
  * @return int : 1 if the node is inside, 0 if not
 */
 int is_node_in_graph(a_node node, a_graph graph);
+
+/***/
+a_node find_node_by_index(int node, a_graph graph);
 
 /***/
 int get_number_of_edges(a_graph graph);

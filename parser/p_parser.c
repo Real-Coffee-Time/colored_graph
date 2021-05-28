@@ -1,4 +1,5 @@
 #include "p_parser.h"
+#include "../colored_graph/p_colored_graph.h"
 
 FILE* init_file(char* file_name) {
     FILE* file_to_open = fopen(file_name, "r");
@@ -72,40 +73,62 @@ int is_edge_line(char* line) {
 }
 
 
-int parse_file(char* file_name) {
+a_graph graph_from_file(char* file_name) {
+
     FILE* file = init_file(file_name);
+
     if (file == NULL_FILE) {
         printf("Cannot print null file\n");
-        return 0;
+        return NULL;
     }
 
     char line[LINE_MAX_SIZE];
+    int nb_nodes, nb_edges = 0;
 
-    // Read line by line (to change to char by char)
-    while (fgets(line, LINE_MAX_SIZE, file) != NULL){
-        decode_line(line);
+    a_graph graph = create_graph();
 
-        // Indentification of the init line
-        is_init_line(line);
+    while (fgets(line, LINE_MAX_SIZE, file) != NULL) {
+        sscanf(line, "p edge %d %d", &nb_nodes, &nb_edges);
 
-        // Identification of the edges line
-        is_edge_line(line);
+        for (int i=1; i<=nb_nodes; i++) {
+            add_node(graph, create_node(i));
+        }
+
+        if (nb_nodes != 0) {
+            break;
+        }
+        
     }
+
+    // print_graph(graph);
+
+    rewind(file);
+
+    int node, edge;
+
+    while (fgets(line, LINE_MAX_SIZE, file) != NULL) {
+        sscanf(line, "e %d %d", &node, &edge);
+
+        if (node != 0) {
+            // printf("%d %d\n", node, edge);
+
+            a_node current_node = find_node_by_index(node, graph);
+            a_node connection = find_node_by_index(edge, graph);
+
+            if (is_empty_node(current_node) || is_empty_node(connection)) {
+                return NULL;
+            }
+            
+            if(!are_connected_together(current_node, connection)) {
+                connect_nodes_between(current_node, connection);
+            }
+        }
+        
+    }
+
+    // print_graph(graph);
+
 
     fclose(file);
-    return 1;
-}
-
-int* decode_line(char* line) {
-    int size_line = sizeof(line);
-    printf("%i\n", size_line);
-    int values[2];
-
-    for(int i=0; i<size_line - 1; i++) {
-        if (isdigit(line[i])) {
-            printf("%i", line[i]);
-        }
-    }
-
-    return NULL;
+    return graph;
 }

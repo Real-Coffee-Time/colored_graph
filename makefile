@@ -30,3 +30,4 @@ clean:
 	rm -f *.exe
 	rm -f *.puml
 	rm -f *.stackdump
+	rm -f graph_export.png

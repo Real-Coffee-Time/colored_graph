@@ -7,6 +7,7 @@
 #include "graph_uml/p_graph_uml.h"
 
 int main(int argc, char** argv) {
+    srand(time(NULL));
 
     // printf("Hello World !\n");
 
@@ -17,41 +18,37 @@ int main(int argc, char** argv) {
     a_node node3 = create_node(3);
     a_node node4 = create_node(4);
     a_node node5 = create_node(5);
-    a_node node6 = create_node(6);
-    a_node node7 = create_node(7);
 
     connect_nodes_between(node1, node2);
-    connect_nodes_between(node1, node7);
-    connect_nodes_between(node1, node4);
-    connect_nodes_between(node2, node3);
+    connect_nodes_between(node1, node3);
+    connect_nodes_between(node2, node4);
     connect_nodes_between(node2, node5);
+    connect_nodes_between(node4, node3);
     connect_nodes_between(node3, node5);
-    connect_nodes_between(node3, node6);
-    connect_nodes_between(node4, node6);
-    connect_nodes_between(node5, node7);
-    connect_nodes_between(node6, node7);
 
     /* ========================= GRAPHS ========================= */
 
-    a_graph graph = create_random_graph(25, 5);
+    // a_graph graph = create_random_graph(25, 5);
+    a_graph graph = create_graph();
 
-    // add_node(graph, node1);
-    // add_node(graph, node2);
-    // add_node(graph, node3);
-    // add_node(graph, node4);
-    // add_node(graph, node5);
-    // add_node(graph, node6);
-    // add_node(graph, node7);
+    add_node(graph, node1);
+    add_node(graph, node2);
+    add_node(graph, node3);
+    add_node(graph, node4);
+    add_node(graph, node5);
 
-    print_graph(graph);
+    // print_graph(graph);
 
-    color_graph(graph);
+    // color_graph(graph);
 
     /* ========================= COLORS ========================= */
 
-    printf("\n\n\n");
+    // printf("\n\n\n");
 
+    // print_graph(graph);
+    color_random(graph);
     print_graph(graph);
+    get_node_best_constraint(node1, graph->colors);
 
     /* ========================== UML ========================== */
 
@@ -59,7 +56,12 @@ int main(int argc, char** argv) {
 
     /* ========================= PARSER ========================= */
 
-    parse_file("assets/1-FullIns_3.col");
+    // a_graph g = graph_from_file("assets/1-FullIns_3.col");
+    // a_graph g = graph_from_file("assets/zeroin.i.3.col");
+
+    // print_graph(g);
+
+    // export_graph_to_uml(g);
 
 
     return 0;

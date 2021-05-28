@@ -42,7 +42,7 @@ int export_graph_to_uml(a_graph graph) {
     }
 
     // Write the header of the file
-    write_line(export_file, "@startuml Graph Export\n");
+    write_line(export_file, "@startuml graph_export\n");
     pass_line(export_file);
 
     write_line(export_file, "\tleft to right direction\n");
@@ -57,7 +57,11 @@ int export_graph_to_uml(a_graph graph) {
     // For every node in the graph initialize value in puml file
     for (int n=0; n<size_graph(graph); n++) {
         a_node current_node = graph->nodes[n];
-        fprintf(export_file, "\t(%i) as %i#%s\n", current_node->index, current_node->index, color_array[current_node->node_color]);
+        if (current_node->node_color != -1) {
+            fprintf(export_file, "\t(%i) as %i#%s\n", current_node->node_color, current_node->index, color_array[current_node->node_color]);
+        } else {
+            fprintf(export_file, "\t(%i) as %i\n", current_node->index, current_node->index);
+        }
     }
 
     // Recreate a one_connexion graph
