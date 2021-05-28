@@ -241,14 +241,19 @@ a_constraint create_constraints(color col, int nb_constraint, a_node node) {
     return new_constraint;
 }
 
-a_constraint get_node_best_constraint(a_node node, a_coloring colors) {
+a_constraint get_node_best_constraint(a_node node, a_coloring colors_base) {
     if (is_empty_node(node)) {
         printf("Cannot check empty node.\n");
         return NULL;
     }
-
+    a_coloring colors = init_colors();
+    colors->colors = colors_base->colors;
+    colors->nb_colors = colors_base->nb_colors;
     color new_color = create_new_color(colors);
-    printf("NEw color : %i\n", new_color);
+    // printf("New color : %i\n", new_color);
+
+    // print_colors_list(colors_base);
+
     list_constraints node_constraints = (list_constraints) malloc(sizeof(a_constraint) * colors->nb_colors);
 
     for (int i=0; i<colors->nb_colors; i++) {
@@ -264,11 +269,11 @@ a_constraint get_node_best_constraint(a_node node, a_coloring colors) {
             // printf("Comparing %i with color %i\n", node->index, current_node->node_color);
 
             if (current_color == node_color(current_node) && node_color(node) != node_color(current_node)) {
-                printf("%i has color %i, it would not help\n", current_node->index, current_color);
+                // printf("%i has color %i, it would not help\n", current_node->index, current_color);
                 constraint++;
 
             } else if (current_color != node_color(current_node) && node_color(node) == node_color(current_node)) {
-                printf("As %i has the same color, it would help to change\n", current_node->index);
+                // printf("As %i has the same color, it would help to change\n", current_node->index);
                 constraint--;
             } else if (current_color == new_color) {
                 constraint++;
@@ -284,7 +289,7 @@ a_constraint get_node_best_constraint(a_node node, a_coloring colors) {
     a_constraint best_constraint = NULL;
 
     for (int i=0; i<colors->nb_colors; i++) {
-        printf("%d %d\n", node_constraints[i]->col, node_constraints[i]->nb_constraint);
+        // printf("%d %d\n", node_constraints[i]->col, node_constraints[i]->nb_constraint);
         if (best_constraint == NULL) {
             best_constraint = node_constraints[i];
         } else if (node_constraints[i]->nb_constraint < best_constraint->nb_constraint) {
@@ -292,8 +297,7 @@ a_constraint get_node_best_constraint(a_node node, a_coloring colors) {
         }
     }
 
-    printf("The best constraint for this node is %d %d\n", best_constraint->col, best_constraint->nb_constraint);
-
+    // printf("The best constraint for this node is %d %d\n", best_constraint->col, best_constraint->nb_constraint);
     return best_constraint;
 }
 
@@ -303,17 +307,85 @@ int color_graph_local_search(a_graph graph) {
         return -1;
     }
 
-    // For each node
-        // Look for the constraints
+    for (int i=0; i<size_graph(graph); i++) {
+        list_constraints node_contraints = (list_constraints) malloc(sizeof(a_constraint) * size_graph(graph));
 
-        // Keep the best constraints
+        for (int i=0; i<size_graph(graph); i++) {
+            node_contraints[i] = get_node_best_constraint(graph->nodes[i], graph->colors);
+            // printf("For node : %i , color : %i, nb_constraint : %i\n", node_contraints[i]->node->index, node_contraints[i]->col, node_contraints[i]->nb_constraint);
+        }
 
-    // For each node
-        // Keep the constraints
+        a_constraint best_constraint = NULL;
 
-        // Compare with the current_constraints
+        for (int i=0; i<size_graph(graph); i++) {
+            if (best_constraint == NULL) {
+                best_constraint = node_contraints[i];
+            } else if (node_contraints[i]->nb_constraint < best_constraint->nb_constraint) {
+                best_constraint = node_contraints[i];
+            }
+        }
 
-    // Change 
+        printf("The best constraint seems to be :\n");
+        printf("\tOn node %i : switch to color %i (%i constraints solved)\n", best_constraint->node->index, best_constraint->col, best_constraint->nb_constraint);
 
-    return 1;
+        best_constraint->node->node_color = best_constraint->col;
+    }
+
+    print_graph(graph);
+
+    // Get the colors used by the new graph
+    a_coloring used_colors = init_colors();
+    for (int i=0; i<graph->colors->nb_colors; i++) {
+        for (int e=0; e<size_graph(graph); e++) {
+            if (node_color(graph->nodes[e]) == graph->colors->colors[i] && !is_color_in_list(graph->colors->colors[i], used_colors)) {
+                add_color_to_list(graph->colors->colors[i], used_colors);
+            }
+        }
+    }
+
+    print_colors_list(used_colors);
+
+    color max_color = -1;
+    for (int i=0; i<used_colors->nb_colors; i++) {
+        if (max_color == -1) {
+            max_color = used_colors->colors[i];
+        } else if (used_colors->colors[i] > max_color) {
+            max_color = used_colors->colors[i];
+        }
+    }
+
+    // For each used color
+    for (int i=0; i<used_colors->nb_colors; i++) {
+        // Try to lower it
+        a_coloring neigbourg_color = init_colors();
+
+        // Adding all neigbour colors
+        for (int n=0; n<size_graph(graph); n++) {
+            a_node current_node = graph->nodes[n];
+            if (node_color(current_node) == used_colors->colors[i]) {
+                for (int e=0; e<current_node->nb_of_connections; e++) {
+                    if (!is_color_in_list(current_node->edges[e]->node_color, neigbourg_color)) {
+                        add_color_to_list(current_node->edges[e]->node_color, neigbourg_color);
+                    }
+                }
+            }
+        }
+
+        // printf("Couleurs voisine de %i\n", used_colors->colors[i]);
+        // print_colors_list(neigbourg_color);
+
+        // From the smallest color
+        for (int n=0; n<max_color; n++) {
+            
+        //     if (node_color(graph->nodes[n]) == used_colors->colors[i]) { // Pour tous les noeuds qui ont cette couleur
+        //         if (!is_color_in_list(n, neigbourg_color)) {
+        //             printf("La couleur %i peut remplacer la couleur %i\n", n, used_colors->colors[i]);
+        //             graph->nodes[n]->node_color = n;
+        //         } else {
+        //             break;
+        //         }
+        //     }
+        }
+    }
+
 }

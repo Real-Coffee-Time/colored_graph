@@ -37,6 +37,13 @@ int main(int argc, char** argv) {
     add_node(graph, node4);
     add_node(graph, node5);
 
+    // graph->colors = init_colors();
+
+    // for (int i=0; i<size_graph(graph); i++) {
+    //     color c = add_color_to_list(graph->nodes[i]->index, graph->colors);
+    //     graph->nodes[i]->node_color = c;
+    // }
+
     // print_graph(graph);
 
     // color_graph(graph);
@@ -48,7 +55,8 @@ int main(int argc, char** argv) {
     // print_graph(graph);
     color_random(graph);
     print_graph(graph);
-    get_node_best_constraint(node1, graph->colors);
+    // get_node_best_constraint(node1, graph->colors);
+    color_graph_local_search(graph);
 
     /* ========================== UML ========================== */
 

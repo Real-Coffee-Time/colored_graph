@@ -52,7 +52,7 @@ int export_graph_to_uml(a_graph graph) {
 
     // Color array
 
-    char* color_array[] = {"green", "red", "blue", "yellow", "purple"};
+    char* color_array[] = {"green", "red", "blue", "yellow", "purple", "pink"};
 
     // For every node in the graph initialize value in puml file
     for (int n=0; n<size_graph(graph); n++) {
