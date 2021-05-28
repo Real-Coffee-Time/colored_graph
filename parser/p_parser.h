@@ -55,7 +55,4 @@ int is_edge_line(char* line);
 */
 a_graph graph_from_file(char* file_name);
 
-/***/
-int* decode_line(char* line);
-
 #endif
